@@ -1,0 +1,11 @@
+.DS_Store
+.vscode/
+
+.python-version
+
+__pychache__/
+.venv/
+env/
+venv/
+
+data/
