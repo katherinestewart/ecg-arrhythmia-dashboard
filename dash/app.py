@@ -1,16 +1,15 @@
+import os
 import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html
-import pandas as pd
-from pathlib import Path
-import re
 
-# Paths
-ROOT = Path.cwd().parent
-DATASET = ROOT / "data" / "files" / "ecg-arrhythmia" / "1.0.0" / "WFDBRecords"
-DATA = ROOT / "data" / "files" / "ecg-arrhythmia" / "1.0.0"
+# --- Hardcoded metrics for deployment (no data needed) ---
+N_FOUND  = 94   # SNOMED codes present in dataset
+N_LISTED = 55   # codes listed in mapping file
+N_MISSING = 4   # in CSV but not in any header
+N_EXTRA   = 43  # in headers but not in CSV
+# ---------------------------------------------------------
 
-# App
 app = Dash(
     __name__,
     external_stylesheets=[
@@ -21,30 +20,7 @@ app = Dash(
 )
 server = app.server
 
-# Data
-conditions = pd.read_csv(DATA / "ConditionNames_SNOMED-CT.csv")
-n_codes = conditions["Snomed_CT"].nunique()
-
-# --- SNOMED stats from headers ---
-headers = list(DATASET.rglob("*.hea"))
-found_codes = set()
-for hea in headers:
-    for line in hea.read_text().splitlines():
-        if line.startswith("#Dx:"):
-            cand = re.split(r"[,\s]+", line.split(":", 1)[1].strip())
-            found_codes.update(c for c in cand if c)
-
-all_codes = set(conditions["Snomed_CT"].astype(str))
-missing_in_data = all_codes - found_codes
-extra_in_data = found_codes - all_codes
-
-n_found = len(found_codes)
-n_listed = len(all_codes)
-n_missing = len(missing_in_data)
-n_extra = len(extra_in_data)
-# ---------------------------------
-
-# Navbar (dark strip)
+# Navbar
 navbar = dbc.Navbar(
     dbc.Container(
         [
@@ -63,15 +39,12 @@ navbar = dbc.Navbar(
 app.layout = dbc.Container(
     [
         navbar,
-
-        # concise, employer-facing context
         html.P(
             "Exploratory data summary for the PhysioNet ECG Arrhythmia dataset, "
             "developed as part of a 3-member ML engineering project focused on "
             "arrhythmia classification from 12-lead ECGs.",
             className="text-center text-muted mb-4",
         ),
-
         dbc.Card(
             dbc.CardBody(
                 [
@@ -97,10 +70,10 @@ app.layout = dbc.Container(
                                     html.H6("SNOMED Code Coverage", className="fw-semibold mb-2"),
                                     html.Ul(
                                         [
-                                            html.Li(f"SNOMED codes present in dataset: {n_found}"),
-                                            html.Li(f"Codes listed in mapping file: {n_listed}"),
-                                            html.Li(f"Codes in CSV but not in any header: {n_missing}"),
-                                            html.Li(f"Codes in headers but not in CSV: {n_extra}"),
+                                            html.Li(f"SNOMED codes present in dataset: {N_FOUND}"),
+                                            html.Li(f"Codes listed in mapping file: {N_LISTED}"),
+                                            html.Li(f"Codes in CSV but not in any header: {N_MISSING}"),
+                                            html.Li(f"Codes in headers but not in CSV: {N_EXTRA}"),
                                         ],
                                         className="mb-0",
                                     ),
