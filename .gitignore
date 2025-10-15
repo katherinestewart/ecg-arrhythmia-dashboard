@@ -8,4 +8,4 @@ __pychache__/
 env/
 venv/
 
-data/
+/data/
