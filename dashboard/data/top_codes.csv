@@ -1,0 +1,21 @@
+Snomed_CT,count,name,status
+426177001,16559,Sinus Bradycardia,Mapped
+426783006,8125,Sinus Rhythm,Mapped
+164890007,8060,Atrial Flutter,Mapped
+427084000,7255,Sinus Tachycardia,Mapped
+164934002,7043,T wave Change,Mapped
+55827005,5401,(unmapped),Unmapped
+55930002,4232,(unmapped),Unmapped
+59931005,2877,T wave opposite,Mapped
+427393009,2550,Sinus Irregularity,Mapped
+164889003,1780,Atrial Fibrillation,Mapped
+429622005,1668,ST drop down,Mapped
+39732003,1545,Axis left shift,Mapped
+284470004,1312,atrial premature beats,Mapped
+10370003,1182,(unmapped),Unmapped
+428750005,1158,ST-T Change,Mapped
+270492004,1140,1 degree atrioventricular block,Mapped
+713427006,1096,(unmapped),Unmapped
+427172004,1091,(unmapped),Unmapped
+164917005,1063,abnormal Q wave,Mapped
+251146004,1043,lower voltage QRS in all lead,Mapped
