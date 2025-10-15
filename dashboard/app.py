@@ -1,10 +1,14 @@
-import json
+import json, os, base64, io
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc
 import pandas as pd
 import plotly.express as px
+
+# Fallback waveform rendering if pre-rendered assets are missing
+import wfdb
+from matplotlib import pyplot as plt
 
 # --- Load precomputed artifacts ---
 APP_DIR  = Path(__file__).resolve().parent
@@ -132,6 +136,45 @@ fig_combined.update_layout(
     margin=dict(l=20, r=20, t=60, b=20),
     legend=dict(itemsizing="trace", title_text="Subcategory")
 )
+
+# --- Prefer pre-rendered example; fallback to raw dataset if available ---
+def render_example_png():
+    # Pre-rendered assets (self-contained)
+    png_file = DATA_DIR / "example_record.png"
+    csv_file = DATA_DIR / "example_labels.csv"
+    if png_file.exists() and csv_file.exists():
+        png_b64 = base64.b64encode(png_file.read_bytes()).decode("ascii")
+        labels = pd.read_csv(csv_file)
+        return png_b64, labels
+
+    # Fallback: read a record from the raw dataset (requires ECG_DATA_ROOT)
+    data_root = Path(os.getenv("ECG_DATA_ROOT", APP_DIR.parent / "data" / "files" / "ecg-arrhythmia" / "1.0.0"))
+    wfdb_dir  = data_root / "WFDBRecords"
+    record_path = wfdb_dir / "01" / "010" / "JS00001"
+    try:
+        rec = wfdb.rdrecord(str(record_path))
+        fig = wfdb.plot_wfdb(record=rec, figsize=(15, 10), return_fig=True)
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", bbox_inches="tight", dpi=120)
+        plt.close(fig)
+        png_b64 = base64.b64encode(buf.getvalue()).decode("ascii")
+
+        hea_text = (record_path.with_suffix(".hea")).read_text()
+        dx_line = next((l for l in hea_text.splitlines() if l.startswith("#Dx:")), None)
+        codes = [] if dx_line is None else [c.strip() for c in dx_line.split(":", 1)[1].split(",") if c.strip()]
+
+        cond = pd.read_csv(data_root / "ConditionNames_SNOMED-CT.csv")
+        cond["Snomed_CT"] = cond["Snomed_CT"].astype(str)
+        labels = cond[cond["Snomed_CT"].isin(pd.Series(codes, dtype=str))][["Snomed_CT", "Full Name"]]
+        for c in codes:
+            if c not in set(labels["Snomed_CT"]):
+                labels = pd.concat([labels, pd.DataFrame([{"Snomed_CT": c, "Full Name": "(unmapped)"}])], ignore_index=True)
+        return png_b64, labels
+    except Exception:
+        # Nothing to show
+        return "", pd.DataFrame(columns=["Snomed_CT", "Full Name"])
+
+example_png_b64, example_labels = render_example_png()
 
 # -----------------------------------------------------------------------------
 
@@ -283,7 +326,6 @@ app.layout = dbc.Container(
                 [
                     html.H4("Normal vs Healthy", className="card-title mb-3 fw-semibold"),
 
-                    # Bullets (full width)
                     dbc.Row(
                         [
                             dbc.Col(
@@ -315,7 +357,6 @@ app.layout = dbc.Container(
                         className="g-2",
                     ),
 
-                    # Chart (full width)
                     dbc.Row(
                         [
                             dbc.Col(
@@ -331,6 +372,47 @@ app.layout = dbc.Container(
                 ]
             ),
             className="shadow-sm mb-4",
+        ),
+
+        # --- Example record (two-column layout; uses pre-rendered assets if present) ---
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4("Example ECG record", className="card-title mb-3 fw-semibold"),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Img(
+                                    src=("data:image/png;base64," + example_png_b64) if example_png_b64 else None,
+                                    style={
+                                        "maxWidth": "100%",
+                                        "borderRadius": "12px",
+                                        "boxShadow": "0 0 0 1px #eee",
+                                        "display": "block"
+                                    },
+                                ),
+                                md=8,
+                            ),
+                            dbc.Col(
+                                [
+                                    html.H6("Labels in header (#Dx:)", className="mb-3"),
+                                    dbc.Table.from_dataframe(
+                                        example_labels.rename(columns={"Full Name": "Full_Name"}),
+                                        striped=True,
+                                        bordered=False,
+                                        hover=True,
+                                        size="sm",
+                                        class_name="mb-0",
+                                    ),
+                                ],
+                                md=4,
+                            ),
+                        ],
+                        className="g-4 align-items-start",
+                    ),
+                ]
+            ),
+            className="shadow-sm mb-5",
         ),
     ],
     fluid=True,

@@ -232,3 +232,31 @@ arr_df = (
 
 arr_df.to_csv(OUT / "arrhythmia_subtypes.csv", index=False)
 print("Wrote:", OUT / "arrhythmia_subtypes.csv")
+
+# --- Optional: pre-render one example record so the dashboard is self-contained ---
+try:
+    import wfdb, io
+    import matplotlib.pyplot as plt
+    # pick a stable example; change if needed
+    example_path = next(WFDB.rglob("JS*.hea")).with_suffix("")  # first JS* record
+    rec = wfdb.rdrecord(str(example_path))
+    fig = wfdb.plot_wfdb(record=rec, figsize=(15, 10), return_fig=True)
+
+    png_path = OUT / "example_record.png"
+    fig.savefig(png_path, format="png", bbox_inches="tight", dpi=120)
+    plt.close(fig)
+
+    # labels for the example
+    hea_text = (example_path.with_suffix(".hea")).read_text(errors="ignore")
+    dx_line = next((l for l in hea_text.splitlines() if l.startswith("#Dx:")), None)
+    codes = [] if dx_line is None else [c.strip() for c in dx_line.split(":", 1)[1].split(",") if c.strip()]
+    example_labels = (
+        pd.DataFrame({"Snomed_CT": pd.Series(codes, dtype=str)})
+          .assign(Full_Name=lambda d: d["Snomed_CT"].map(code2name).fillna("(unmapped)"))
+    )
+    example_labels.to_csv(OUT / "example_labels.csv", index=False)
+
+    print("Wrote:", png_path)
+    print("Wrote:", OUT / "example_labels.csv")
+except Exception as e:
+    print("Example preview not created:", e)
