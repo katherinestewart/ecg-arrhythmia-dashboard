@@ -63,3 +63,45 @@ top_df = (
 top_df.to_csv(OUT / "top_codes.csv", index=False)
 
 print(f"Wrote: {OUT / 'metrics.json'} and {OUT / 'top_codes.csv'}")
+
+# total paired recordings (hea ∩ mat)
+hea_stems = {p.stem for p in (WFDB.rglob("*.hea"))}
+mat_stems = {p.stem for p in (WFDB.rglob("*.mat"))}
+total_recordings = len(hea_stems & mat_stems)
+
+# parse headers to get fs, leads, durations
+fs_counts = Counter()
+lead_counts = Counter()
+dur_secs = []
+bad_headers = 0
+
+for hea in WFDB.rglob("*.hea"):
+    try:
+        first = next(l for l in hea.read_text(errors="ignore").splitlines() if not l.startswith("#"))
+        parts = first.split()  # WFDB: <record> <n_sig> <fs> <nsamp> ...
+        n_sig = int(parts[1]); fs = float(parts[2]); nsamp = int(parts[3])
+        lead_counts[n_sig] += 1
+        fs_counts[fs] += 1
+        dur_secs.append(nsamp / fs)
+    except Exception:
+        bad_headers += 1
+
+modal_fs = max(fs_counts, key=fs_counts.get) if fs_counts else None
+modal_leads = max(lead_counts, key=lead_counts.get) if lead_counts else None
+total_duration_seconds = int(sum(dur_secs))
+h = total_duration_seconds // 3600
+m = (total_duration_seconds % 3600) // 60
+s = total_duration_seconds % 60
+total_duration_hms = f"{h:02d}:{m:02d}:{s:02d}"
+
+# merge into existing metrics dict and rewrite
+metrics.update({
+    "total_recordings": total_recordings,
+    "parsed_headers": len(dur_secs),
+    "bad_headers": bad_headers,
+    "modal_fs_hz": modal_fs,
+    "modal_leads": modal_leads,
+    "total_duration_seconds": total_duration_seconds,
+    "total_duration_hms": total_duration_hms,
+})
+(OUT / "metrics.json").write_text(json.dumps(metrics, indent=2))
