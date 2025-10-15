@@ -2,5 +2,12 @@
   "n_found": 94,
   "n_listed": 55,
   "n_missing": 4,
-  "n_extra": 43
+  "n_extra": 43,
+  "total_recordings": 45152,
+  "parsed_headers": 45151,
+  "bad_headers": 1,
+  "modal_fs_hz": 500.0,
+  "modal_leads": 12,
+  "total_duration_seconds": 451510,
+  "total_duration_hms": "125:25:10"
 }

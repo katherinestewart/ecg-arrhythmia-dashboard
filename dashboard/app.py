@@ -12,10 +12,14 @@ DATA_DIR = APP_DIR / "data"
 
 # coverage numbers
 metrics = json.loads((DATA_DIR / "metrics.json").read_text())
-N_FOUND  = metrics["n_found"]
-N_LISTED = metrics["n_listed"]
-N_MISSING = metrics["n_missing"]
-N_EXTRA   = metrics["n_extra"]
+N_FOUND      = metrics["n_found"]
+N_LISTED     = metrics["n_listed"]
+N_MISSING    = metrics["n_missing"]
+N_EXTRA      = metrics["n_extra"]
+PARSED_HEADERS = metrics["parsed_headers"]
+BAD_HEADERS    = metrics["bad_headers"]
+N_RECORDINGS = metrics["total_recordings"]
+TOTAL_HMS    = metrics["total_duration_hms"]
 
 # dataset structure (includes the ASCII trees)
 structure = json.loads((DATA_DIR / "structure.json").read_text())
@@ -88,15 +92,20 @@ app.layout = dbc.Container(
                     html.H4("Dataset Overview", className="card-title mb-3 fw-semibold"),
                     dbc.Row(
                         [
-                            # Left: recording details
+                            # Left: recording details (UPDATED)
                             dbc.Col(
                                 [
                                     html.H6("Recording Details", className="fw-semibold mb-2"),
                                     html.Ul(
                                         [
+                                            html.Li(f"Total ECG recordings: {N_RECORDINGS:,}"),
                                             html.Li("12-lead ECGs from 45,152 patients."),
                                             html.Li("Sampling rate: 500 Hz."),
                                             html.Li("Recording length: 10 seconds per test."),
+                                            html.Li(f"Total duration: {TOTAL_HMS} (hh:mm:ss)"),
+                                            html.Li(f"Valid headers parsed: {PARSED_HEADERS:,} / {N_RECORDINGS:,} "
+                                                    f"(malformed: {BAD_HEADERS})"),
+                                            html.Li("Format: WFDB .hea (metadata) + .mat (signals)"),
                                         ],
                                         className="mb-0",
                                     ),
