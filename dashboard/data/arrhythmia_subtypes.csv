@@ -1,0 +1,91 @@
+Snomed_CT,count,Full_Name
+164890007,8060,Atrial Flutter
+164934002,7043,T wave Change
+55827005,5401,(unmapped)
+55930002,4232,(unmapped)
+59931005,2877,T wave opposite
+164889003,1780,Atrial Fibrillation
+429622005,1668,ST drop down
+39732003,1545,Axis left shift
+284470004,1312,atrial premature beats
+10370003,1182,(unmapped)
+428750005,1158,ST-T Change
+270492004,1140,1 degree atrioventricular block
+713427006,1096,(unmapped)
+427172004,1091,(unmapped)
+164917005,1063,abnormal Q wave
+251146004,1043,lower voltage QRS in all lead
+47665007,853,Axis right shift
+164930006,801,ST extension
+698252002,771,Intraventricular block
+426761007,724,Supraventricular Tachycardia
+61721007,653,(unmapped)
+59118001,649,right bundle branch block
+164873001,647,left ventricle hypertrophy
+365413008,638,(unmapped)
+111975006,394,QT interval extension
+6374002,385,(unmapped)
+445118002,380,(unmapped)
+428417006,366,Early repolarization of the ventricles
+713422000,297,Atrial Tachycardia
+17338001,294,ventricular premature beat
+713426002,246,(unmapped)
+233917008,244,atrioventricular block
+164909002,240,left front bundle branch block
+251223006,215,(unmapped)
+106068003,215,(unmapped)
+733534002,213,(unmapped)
+164931005,176,ST tilt up
+251199005,162,countercolockwise rotation
+164912004,142,P wave Change
+29320008,139,(unmapped)
+164937009,136,U wave
+164865005,123,Myocardial infraction in the side wall
+13640000,116,ventricular fusion wave
+89792004,110,right ventricle hypertrophy
+425856008,109,(unmapped)
+251205003,106,(unmapped)
+81898007,96,(unmapped)
+27885002,76,3 degree atrioventricular block
+251198002,76,colockwise rotation
+426995002,75,junctional escape beat
+74390002,72,WPW
+195042002,66,2 degree atrioventricular block
+251170000,62,(unmapped)
+50799005,59,(unmapped)
+164896001,59,(unmapped)
+54329005,57,(unmapped)
+75532003,56,ventricular escape beat
+164947007,52,PR interval extension
+57054005,49,(unmapped)
+67751000119106,36,(unmapped)
+446358003,36,right atrial hypertrophy
+5609005,33,(unmapped)
+54016002,31,2 degree atrioventricular block(Type one)
+233897008,26,Atrioventricular Reentrant Tachycardia
+426648003,24,(unmapped)
+49578007,23,(unmapped)
+251187003,17,(unmapped)
+251166008,16,(unmapped)
+233892002,16,(unmapped)
+61277005,14,(unmapped)
+195060002,12,ventricular preexcitation
+426664006,12,(unmapped)
+251164006,11,junctional premature beat
+63593006,9,(unmapped)
+446813000,8,(unmapped)
+251180001,8,ventricular escape trigeminy
+426627000,7,(unmapped)
+17366009,7,(unmapped)
+111288001,7,(unmapped)
+426183003,7,(unmapped)
+251120003,6,(unmapped)
+418818005,5,(unmapped)
+65778007,5,(unmapped)
+445211001,5,(unmapped)
+11157007,3,ventricular bigeminy
+164942001,3,fQRS Wave
+251173003,3,atrial bigeminy
+195101003,2,Sinus Atrium to Atrial Wandering Rhythm
+77867006,2,(unmapped)
+67741000119109,1,(unmapped)
