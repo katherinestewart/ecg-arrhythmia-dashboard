@@ -1,0 +1,75 @@
+{
+  "top_level_files": [
+    "ConditionNames_SNOMED-CT.csv",
+    "LICENSE.txt",
+    "RECORDS",
+    "SHA256SUMS.txt",
+    "index.html"
+  ],
+  "wfdb_shards_count": 46,
+  "wfdb_shards_sample": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+  ],
+  "example_record_summary": {
+    "dir_name": "038",
+    "n_hea": 100,
+    "n_mat": 100,
+    "n_paired": 100,
+    "samples": [
+      {
+        "stem": "JS02924",
+        "hea": "JS02924.hea",
+        "mat": "JS02924.mat"
+      },
+      {
+        "stem": "JS02925",
+        "hea": "JS02925.hea",
+        "mat": "JS02925.mat"
+      },
+      {
+        "stem": "JS02926",
+        "hea": "JS02926.hea",
+        "mat": "JS02926.mat"
+      },
+      {
+        "stem": "JS02927",
+        "hea": "JS02927.hea",
+        "mat": "JS02927.mat"
+      },
+      {
+        "stem": "JS02928",
+        "hea": "JS02928.hea",
+        "mat": "JS02928.mat"
+      },
+      {
+        "stem": "JS02929",
+        "hea": "JS02929.hea",
+        "mat": "JS02929.mat"
+      },
+      {
+        "stem": "JS02930",
+        "hea": "JS02930.hea",
+        "mat": "JS02930.mat"
+      },
+      {
+        "stem": "JS02931",
+        "hea": "JS02931.hea",
+        "mat": "JS02931.mat"
+      }
+    ],
+    "n_more_pairs": 92
+  },
+  "tree_top": "1.0.0\n\u251c\u2500\u2500 WFDBRecords\n\u2502   \u251c\u2500\u2500 01\n\u2502   \u251c\u2500\u2500 02\n\u2502   \u251c\u2500\u2500 03\n\u2502   \u251c\u2500\u2500 04\n\u2502   \u251c\u2500\u2500 05\n\u2502   \u251c\u2500\u2500 06\n\u2502   \u251c\u2500\u2500 07\n\u2502   \u251c\u2500\u2500 08\n\u2502   \u251c\u2500\u2500 09\n\u2502   \u251c\u2500\u2500 10\n\u2502   \u251c\u2500\u2500 11\n\u2502   \u251c\u2500\u2500 12\n\u2502   \u2514\u2500\u2500 \u2026 (+35 more)\n\u251c\u2500\u2500 ConditionNames_SNOMED-CT.csv\n\u251c\u2500\u2500 index.html\n\u251c\u2500\u2500 LICENSE.txt\n\u251c\u2500\u2500 RECORDS\n\u2514\u2500\u2500 SHA256SUMS.txt",
+  "tree_example": "038\n\u251c\u2500\u2500 index.html\n\u251c\u2500\u2500 JS02924.hea\n\u251c\u2500\u2500 JS02924.mat\n\u251c\u2500\u2500 JS02925.hea\n\u251c\u2500\u2500 JS02925.mat\n\u251c\u2500\u2500 JS02926.hea\n\u251c\u2500\u2500 JS02926.mat\n\u251c\u2500\u2500 JS02927.hea\n\u2514\u2500\u2500 \u2026 (+194 more)"
+}
